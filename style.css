@@ -1,0 +1,856 @@
+/* ===========================
+   GOOGLE FONT
+=========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ===========================
+   RESET
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f5f7fa;
+    color:#222;
+}
+
+/* ===========================
+   NAVBAR
+=========================== */
+
+nav{
+    width:100%;
+    height:75px;
+    background:#ffffff;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:0 8%;
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:700;
+    color:#2563eb;
+}
+
+.logo i{
+    margin-right:8px;
+}
+
+nav ul{
+    display:flex;
+    list-style:none;
+}
+
+nav ul li{
+    margin-left:30px;
+}
+
+nav ul li a{
+    text-decoration:none;
+    color:#333;
+    font-weight:500;
+    transition:.3s;
+}
+
+nav ul li a:hover{
+    color:#2563eb;
+}
+
+/* ===========================
+   HERO
+=========================== */
+
+.hero{
+
+    width:100%;
+    min-height:350px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    text-align:center;
+
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+
+    color:white;
+
+    padding:50px;
+
+}
+
+.hero h1{
+
+    font-size:48px;
+
+    margin-bottom:20px;
+
+}
+
+.hero p{
+
+    font-size:18px;
+
+    margin-bottom:35px;
+
+}
+
+.hero button{
+
+    padding:15px 35px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#10b981;
+
+    color:white;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.hero button:hover{
+
+    transform:translateY(-3px);
+
+    background:#059669;
+
+}
+
+/* ===========================
+   SECTION TITLE
+=========================== */
+
+section h2{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+    font-size:32px;
+
+    color:#1e3a8a;
+
+}
+
+/* ===========================
+   OVERVIEW
+=========================== */
+
+.overview{
+
+    width:90%;
+
+    margin:50px auto;
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+
+    gap:25px;
+
+}
+
+.card{
+
+    background:white;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.card h3{
+
+    color:#666;
+
+    margin-bottom:15px;
+
+}
+
+.card h1{
+
+    font-size:38px;
+
+    color:#2563eb;
+
+}
+
+/* ===========================
+   COMMON CARD STYLE
+=========================== */
+
+.sensor,
+.performance-card,
+.ai-box{
+
+    background:white;
+
+    border-radius:15px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.sensor:hover,
+.performance-card:hover,
+.ai-box:hover{
+
+    transform:translateY(-6px);
+
+}
+
+/* ===========================
+   SPACING
+=========================== */
+
+.sensor-section,
+.performance,
+.ai-panel,
+.alerts-section{
+
+    width:90%;
+
+    margin:60px auto;
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media(max-width:900px){
+
+nav{
+
+flex-direction:column;
+
+height:auto;
+
+padding:20px;
+
+}
+
+nav ul{
+
+margin-top:15px;
+
+flex-wrap:wrap;
+
+justify-content:center;
+
+}
+
+nav ul li{
+
+margin:10px;
+
+}
+
+.hero h1{
+
+font-size:36px;
+
+}
+
+.hero p{
+
+font-size:16px;
+
+}
+
+}
+/* ==========================================
+   LIVE SENSOR SECTION
+========================================== */
+
+.sensor-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:25px;
+}
+
+.sensor{
+    padding:25px;
+    text-align:center;
+    border-left:6px solid #2563eb;
+}
+
+.sensor h3{
+    color:#555;
+    margin-bottom:15px;
+    font-size:20px;
+}
+
+.sensor p{
+    font-size:30px;
+    font-weight:700;
+    color:#2563eb;
+}
+
+.sensor:hover{
+    box-shadow:0 12px 25px rgba(37,99,235,.15);
+}
+
+/* ==========================================
+   PERFORMANCE SECTION
+========================================== */
+
+.performance-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+
+    gap:30px;
+
+}
+
+.performance-card{
+
+    padding:25px;
+
+}
+
+.performance-card h3{
+
+    text-align:center;
+
+    color:#1e3a8a;
+
+    margin-bottom:20px;
+
+}
+
+.performance-card canvas{
+
+    width:100% !important;
+
+    height:250px !important;
+
+}
+
+/* ==========================================
+   AI PANEL
+========================================== */
+
+.ai-box{
+
+    padding:35px;
+
+    border-left:8px solid #10b981;
+
+    background:#ffffff;
+
+}
+
+.ai-box p{
+
+    font-size:18px;
+
+    margin:18px 0;
+
+    color:#333;
+
+}
+
+.ai-box strong{
+
+    color:#10b981;
+
+}
+
+/* ==========================================
+   ALERT SECTION
+========================================== */
+
+.alerts-section ul{
+
+    list-style:none;
+
+}
+
+.alerts-section li{
+
+    background:#ffffff;
+
+    margin:15px 0;
+
+    padding:18px 22px;
+
+    border-left:8px solid #ef4444;
+
+    border-radius:12px;
+
+    box-shadow:0 8px 15px rgba(0,0,0,.06);
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.alerts-section li:hover{
+
+    transform:translateX(8px);
+
+}
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+footer{
+
+    background:#2563eb;
+
+    color:white;
+
+    text-align:center;
+
+    padding:25px;
+
+    margin-top:60px;
+
+}
+
+/* ==========================================
+   BUTTON ANIMATION
+========================================== */
+
+button{
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:scale(1.05);
+
+}
+
+/* ==========================================
+   CARD ANIMATION
+========================================== */
+
+.card,
+.sensor,
+.performance-card,
+.ai-box{
+
+    animation:fadeUp .8s ease;
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/* ==========================================
+   STATUS COLORS
+========================================== */
+
+.good{
+    color:#10b981;
+}
+
+.warning{
+    color:#f59e0b;
+}
+
+.danger{
+    color:#ef4444;
+}
+
+/* ==========================================
+   SCROLLBAR
+========================================== */
+
+::-webkit-scrollbar{
+    width:10px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#2563eb;
+    border-radius:10px;
+}
+
+::-webkit-scrollbar-track{
+    background:#f5f7fa;
+}
+/* ==========================================
+   PREMIUM DASHBOARD STYLING
+========================================== */
+
+/* Live Status Badge */
+.status-live{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 18px;
+    background:#ecfdf5;
+    color:#10b981;
+    border-radius:30px;
+    font-weight:600;
+    margin-bottom:20px;
+}
+
+.status-live::before{
+    content:"";
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background:#10b981;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+        opacity:1;
+    }
+    100%{
+        transform:scale(2);
+        opacity:0;
+    }
+}
+
+/* Dashboard Card Colors */
+
+.card:nth-child(1){
+    border-top:5px solid #2563eb;
+}
+
+.card:nth-child(2){
+    border-top:5px solid #10b981;
+}
+
+.card:nth-child(3){
+    border-top:5px solid #f59e0b;
+}
+
+.card:nth-child(4){
+    border-top:5px solid #ef4444;
+}
+
+/* Sensor Cards */
+
+.sensor{
+    position:relative;
+    overflow:hidden;
+}
+
+.sensor::after{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:-100%;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(255,255,255,.35);
+
+    transform:skewX(-20deg);
+
+}
+
+.sensor:hover::after{
+
+    left:130%;
+
+    transition:1s;
+
+}
+
+/* Performance Cards */
+
+.performance-card{
+
+    border-top:5px solid #2563eb;
+
+}
+
+.performance-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 18px 35px rgba(37,99,235,.15);
+
+}
+
+/* AI Box */
+
+.ai-box{
+
+    background:linear-gradient(135deg,#ffffff,#f0fdf4);
+
+}
+
+.ai-box p{
+
+    padding:10px 0;
+
+    border-bottom:1px solid #e5e7eb;
+
+}
+
+.ai-box p:last-child{
+
+    border:none;
+
+}
+
+/* Alerts */
+
+.alerts-section li{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+.alerts-section li::after{
+
+    content:"Active";
+
+    color:white;
+
+    background:#ef4444;
+
+    padding:5px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+}
+
+/* Footer */
+
+footer{
+
+    font-size:15px;
+
+    letter-spacing:.5px;
+
+}
+
+/* Hover Animation */
+
+.card:hover,
+.sensor:hover,
+.performance-card:hover,
+.ai-box:hover{
+
+    transition:.35s;
+
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.hero{
+
+padding:60px 20px;
+
+}
+
+.hero h1{
+
+font-size:32px;
+
+}
+
+.overview{
+
+grid-template-columns:1fr;
+
+}
+
+.sensor-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.performance-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.performance-card canvas{
+
+height:220px !important;
+
+}
+
+.ai-box{
+
+padding:20px;
+
+}
+
+}
+
+/* Mobile */
+
+@media(max-width:500px){
+
+.logo{
+
+font-size:20px;
+
+}
+
+nav ul{
+
+display:none;
+
+}
+
+.hero h1{
+
+font-size:26px;
+
+}
+
+.hero p{
+
+font-size:15px;
+
+}
+
+.hero button{
+
+width:100%;
+
+}
+
+.card h1{
+
+font-size:30px;
+
+}
+
+.sensor p{
+
+font-size:24px;
+
+}
+
+}
+
+/* Smooth Scroll */
+
+html{
+
+scroll-behavior:smooth;
+
+}
+
+/* Selection */
+
+::selection{
+
+background:#2563eb;
+
+color:white;
+
+}
+.menu-btn{
+    display:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+@media(max-width:768px){
+
+    .menu-btn{
+        display:block;
+    }
+
+    nav{
+        position:relative;
+    }
+
+    nav ul{
+        position:absolute;
+        top:75px;
+        left:0;
+        width:100%;
+        background:white;
+        flex-direction:column;
+        display:none;
+        box-shadow:0 5px 15px rgba(0,0,0,.15);
+    }
+
+    nav ul.active{
+        display:flex;
+    }
+
+    nav ul li{
+        margin:18px 0;
+        text-align:center;
+    }
+
+}
+
