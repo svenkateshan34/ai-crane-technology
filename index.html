@@ -23,23 +23,23 @@
         Smart Crane AI
     </div>
 
-    <div class="menu-btn" id="menuBtn">
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navMenu">
         <i class="fa-solid fa-bars"></i>
-    </div>
+    </button>
 
     <ul id="navMenu">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Analytics</a></li>
-        <li><a href="#">Reports</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#analytics">Analytics</a></li>
+        <li><a href="#reports">Reports</a></li>
+        <li><a href="#contact">Contact</a></li>
     </ul>
 
 </nav>
 
 <!-- ================= HERO ================= -->
 
-<section class="hero">
+<section class="hero" id="home">
 
     <div class="hero-text">
 
@@ -50,7 +50,7 @@
             Industrial IoT Dashboard
         </p>
 
-        <button>
+        <button id="dashboardButton" type="button">
             Open Dashboard
         </button>
 
@@ -60,7 +60,7 @@
 
 <!-- ================= OVERVIEW ================= -->
 
-<section class="overview">
+<section class="overview" id="dashboard">
 
     <div class="card">
 
@@ -103,6 +103,8 @@
     </div>
 
 </section>
+
+<p class="dashboard-clock">Local time: <time id="clock">--:--:--</time></p>
 
 <!-- ================= LIVE SENSOR ================= -->
 
@@ -196,6 +198,32 @@ Plant A
 
 </section>
 
+<!-- ================= ANALYTICS ================= -->
+
+<section class="performance" id="analytics">
+
+    <h2>Performance Analytics</h2>
+
+    <div class="performance-grid">
+        <div class="performance-card">
+            <h3>Crane Load</h3>
+            <canvas id="usageChart" aria-label="Crane load history chart"></canvas>
+        </div>
+        <div class="performance-card">
+            <h3>Fuel Level</h3>
+            <canvas id="fuelChart" aria-label="Fuel level history chart"></canvas>
+        </div>
+        <div class="performance-card">
+            <h3>Component Wear</h3>
+            <canvas id="wearChart" aria-label="Component wear history chart"></canvas>
+        </div>
+        <div class="performance-card">
+            <h3>Working Hours</h3>
+            <canvas id="hourChart" aria-label="Working hours history chart"></canvas>
+        </div>
+    </div>
+
+</section>
 
 <!-- ================= AI PANEL ================= -->
 
@@ -203,62 +231,27 @@ Plant A
 
 <h2>AI Maintenance Recommendation</h2>
 
-<div class="ai-box">
-
-<p>
-
-✔ Wire Rope Inspection Recommended
-
-</p>
-
-<p>
-
-✔ Estimated Remaining Life :
-68 Days
-
-</p>
-
-<p>
-
-✔ Next Service :
-18 July 2026
-
-</p>
-
-<p>
-
-✔ Failure Risk :
-Low
-
-</p>
-
+<div class="ai-box" id="recommendations">
+    <p>Loading maintenance recommendations...</p>
 </div>
 
 </section>
 
 <!-- ================= ALERTS ================= -->
 
-<section class="alerts-section">
+<section class="alerts-section" id="reports">
 
 <h2>Recent Alerts</h2>
 
-<ul>
+<ul id="alertList" aria-live="polite"></ul>
 
-<li>🔥 High Temperature</li>
-
-<li>⚠ Over Load Detected</li>
-
-<li>⛽ Low Fuel Warning</li>
-
-<li>📳 High Vibration</li>
-
-</ul>
+<button class="report-button" id="reportBtn" type="button">Download Current Report</button>
 
 </section>
 
 <!-- ================= FOOTER ================= -->
 
-<footer>
+<footer id="contact">
 
 <p>
 

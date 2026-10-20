@@ -1,829 +1,267 @@
-// =========================================
-// AI SMART CRANE MONITORING SYSTEM
-// Part 1
-// =========================================
-
-// ================================
-// Dashboard Elements
-// ================================
-
-const health = document.getElementById("health");
-const hours = document.getElementById("hours");
-const fuel = document.getElementById("fuel");
-const alerts = document.getElementById("alerts");
-
-const load = document.getElementById("load");
-const wear = document.getElementById("wear");
-const fuelLevel = document.getElementById("fuelLevel");
-const workingTime = document.getElementById("workingTime");
-const temperature = document.getElementById("temperature");
-const vibration = document.getElementById("vibration");
-const rpm = document.getElementById("rpm");
-
-// ================================
-// Initial Sensor Values
-// ================================
-
-let crane = {
-
-    load:42,
-
-    wear:18,
-
-    fuel:100,
-
-    hours:8,
-
-    temp:45,
-
-    rpm:1350,
-
-    health:100
-
+const elements = {
+    health: document.getElementById("health"),
+    hours: document.getElementById("hours"),
+    fuel: document.getElementById("fuel"),
+    alerts: document.getElementById("alerts"),
+    load: document.getElementById("load"),
+    wear: document.getElementById("wear"),
+    fuelLevel: document.getElementById("fuelLevel"),
+    workingTime: document.getElementById("workingTime"),
+    temperature: document.getElementById("temperature"),
+    vibration: document.getElementById("vibration"),
+    rpm: document.getElementById("rpm"),
+    clock: document.getElementById("clock"),
+    recommendations: document.getElementById("recommendations"),
+    alertList: document.getElementById("alertList")
 };
 
-// ================================
-// Charts Data
-// ================================
-
-const labels=[];
-
-const loadData=[];
-
-const fuelData=[];
-
-const wearData=[];
-
-const hourData=[];
-
-// ================================
-// Chart Options
-// ================================
-
-const chartOptions={
-
-responsive:true,
-
-maintainAspectRatio:false,
-
-animation:{
-
-duration:1800,
-
-easing:"easeInOutQuart"
-
-},
-
-interaction:{
-
-mode:"index",
-
-intersect:false
-
-},
-
-plugins:{
-
-legend:{
-
-display:true
-
-}
-
-},
-
-elements:{
-
-line:{
-
-tension:.45,
-
-borderWidth:3
-
-},
-
-point:{
-
-radius:4,
-
-hoverRadius:7
-
-}
-
-}
-
+const crane = {
+    load: 42,
+    wear: 18,
+    fuel: 74,
+    hours: 8.5,
+    temperature: 58,
+    rpm: 1450,
+    health: 80
 };
 
-// ================================
-// LOAD CHART
-// ================================
-
-const usageChart=new Chart(
-
-document.getElementById("usageChart"),
-
-{
-
-type:"line",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Load (Ton)",
-
-data:loadData,
-
-borderColor:"#2563eb",
-
-backgroundColor:"rgba(37,99,235,.15)",
-
-fill:true
-
-}]
-
-},
-
-options:chartOptions
-
-}
-
-);
-
-// ================================
-// Fuel Chart
-// ================================
-
-const fuelChart=new Chart(
-
-document.getElementById("fuelChart"),
-
-{
-
-type:"line",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Fuel (%)",
-
-data:fuelData,
-
-borderColor:"#10b981",
-
-backgroundColor:"rgba(16,185,129,.15)",
-
-fill:true
-
-}]
-
-},
-
-options:chartOptions
-
-}
-
-);
-
-// ================================
-// Wear Chart
-// ================================
-
-const wearChart=new Chart(
-
-document.getElementById("wearChart"),
-
-{
-
-type:"line",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Wear (%)",
-
-data:wearData,
-
-borderColor:"#f59e0b",
-
-backgroundColor:"rgba(245,158,11,.15)",
-
-fill:true
-
-}]
-
-},
-
-options:chartOptions
-
-}
-
-);
-
-// ================================
-// Working Hours Chart
-// ================================
-
-const hourChart=new Chart(
-
-document.getElementById("hourChart"),
-
-{
-
-type:"bar",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Working Hours",
-
-data:hourData,
-
-backgroundColor:"#2563eb"
-
-}]
-
-},
-
-options:chartOptions
-
-}
-
-);
-
-// ================================
-// Realistic Simulation
-// ================================
-
-function simulateCrane(){
-
-// Load
-
-crane.load+=Math.floor(Math.random()*5)-2;
-
-crane.load=Math.max(20,Math.min(60,crane.load));
-
-// Fuel
-
-crane.fuel-=Math.random()*1.5;
-
-crane.fuel=Math.max(10,crane.fuel);
-
-// Wear
-
-crane.wear+=Math.random()*0.4;
-
-crane.wear=Math.min(100,crane.wear);
-
-// Hours
-
-crane.hours+=0.2;
-
-// Temperature
-
-crane.temp=40+(crane.load/2)+(Math.random()*5);
-
-// RPM
-
-crane.rpm=1200+crane.load*10;
-
-// Health
-
-crane.health=100-(crane.wear*.5);
-
-}
-// =========================================
-// AI SMART CRANE MONITORING SYSTEM
-// Part 1
-// =========================================
-
-// ================================
-// Dashboard Elements
-// ================================
-
-const health = document.getElementById("health");
-const hours = document.getElementById("hours");
-const fuel = document.getElementById("fuel");
-const alerts = document.getElementById("alerts");
-
-const load = document.getElementById("load");
-const wear = document.getElementById("wear");
-const fuelLevel = document.getElementById("fuelLevel");
-const workingTime = document.getElementById("workingTime");
-const temperature = document.getElementById("temperature");
-const vibration = document.getElementById("vibration");
-const rpm = document.getElementById("rpm");
-
-// ================================
-// Initial Sensor Values
-// ================================
-
-let crane = {
-
-    load:42,
-
-    wear:18,
-
-    fuel:100,
-
-    hours:8,
-
-    temp:45,
-
-    rpm:1350,
-
-    health:100
-
+const historyLimit = 20;
+const chartLabels = [];
+const chartData = {
+    load: [],
+    fuel: [],
+    wear: [],
+    hours: []
 };
-
-// ================================
-// Charts Data
-// ================================
-
-const labels=[];
-
-const loadData=[];
-
-const fuelData=[];
-
-const wearData=[];
-
-const hourData=[];
-
-// ================================
-// Chart Options
-// ================================
-
-const chartOptions={
-
-responsive:true,
-
-maintainAspectRatio:false,
-
-animation:{
-
-duration:1800,
-
-easing:"easeInOutQuart"
-
-},
-
-interaction:{
-
-mode:"index",
-
-intersect:false
-
-},
-
-plugins:{
-
-legend:{
-
-display:true
-
-}
-
-},
-
-elements:{
-
-line:{
-
-tension:.45,
-
-borderWidth:3
-
-},
-
-point:{
-
-radius:4,
-
-hoverRadius:7
-
-}
-
-}
-
-};
-
-// ================================
-// LOAD CHART
-// ================================
-
-const usageChart=new Chart(
-
-document.getElementById("usageChart"),
-
-{
-
-type:"line",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Load (Ton)",
-
-data:loadData,
-
-borderColor:"#2563eb",
-
-backgroundColor:"rgba(37,99,235,.15)",
-
-fill:true
-
-}]
-
-},
-
-options:chartOptions
-
-}
-
-);
-
-// ================================
-// Fuel Chart
-// ================================
-
-const fuelChart=new Chart(
-
-document.getElementById("fuelChart"),
-
-{
-
-type:"line",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Fuel (%)",
-
-data:fuelData,
-
-borderColor:"#10b981",
-
-backgroundColor:"rgba(16,185,129,.15)",
-
-fill:true
-
-}]
-
-},
-
-options:chartOptions
-
-}
-
-);
-
-// ================================
-// Wear Chart
-// ================================
-
-const wearChart=new Chart(
-
-document.getElementById("wearChart"),
-
-{
-
-type:"line",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Wear (%)",
-
-data:wearData,
-
-borderColor:"#f59e0b",
-
-backgroundColor:"rgba(245,158,11,.15)",
-
-fill:true
-
-}]
-
-},
-
-options:chartOptions
-
-}
-
-);
-
-// ================================
-// Working Hours Chart
-// ================================
-
-const hourChart=new Chart(
-
-document.getElementById("hourChart"),
-
-{
-
-type:"bar",
-
-data:{
-
-labels:labels,
-
-datasets:[{
-
-label:"Working Hours",
-
-data:hourData,
-
-backgroundColor:"#2563eb"
-
-}]
-
-},
-
-options:chartOptions
-
-}
-
-);
-
-// ================================
-// Realistic Simulation
-// ================================
-
-function simulateCrane(){
-
-// Load
-
-crane.load+=Math.floor(Math.random()*5)-2;
-
-crane.load=Math.max(20,Math.min(60,crane.load));
-
-// Fuel
-
-crane.fuel-=Math.random()*1.5;
-
-crane.fuel=Math.max(10,crane.fuel);
-
-// Wear
-
-crane.wear+=Math.random()*0.4;
-
-crane.wear=Math.min(100,crane.wear);
-
-// Hours
-
-crane.hours+=0.2;
-
-// Temperature
-
-crane.temp=40+(crane.load/2)+(Math.random()*5);
-
-// RPM
-
-crane.rpm=1200+crane.load*10;
-
-// Health
-
-crane.health=100-(crane.wear*.5);
-
-}
-// =========================================
-// PART 3
-// Auto Update + 90 Days + AI Score
-// =========================================
-
-// -------------------------------
-// 90 Days History
-// -------------------------------
-
-const history = [];
-
-for(let i=1;i<=90;i++){
-
-    history.push({
-
-        day:i,
-
-        load:30+Math.random()*25,
-
-        fuel:100-i*.7,
-
-        wear:10+i*.6,
-
-        hours:6+Math.random()*5
-
-    });
-
-}
-
-// -------------------------------
-// AI Health Score
-// -------------------------------
-
-function calculateHealth(){
-
-    crane.health =
-
-    100
-    - (crane.wear*0.45)
-    - ((100-crane.fuel)*0.12)
-    - ((crane.temp-40)*0.25);
-
-    crane.health=Math.max(60,Math.min(100,crane.health));
-
-}
-
-// -------------------------------
-// Fuel Consumption
-// -------------------------------
-
-function consumeFuel(){
-
-    crane.fuel-=crane.load*0.01;
-
-    if(crane.fuel<10){
-
-        crane.fuel=100;
-
+const charts = [];
+
+function createChart(canvasId, type, label, color, data) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas || typeof Chart === "undefined") {
+        return null;
     }
 
+    return new Chart(canvas, {
+        type,
+        data: {
+            labels: chartLabels,
+            datasets: [{
+                label,
+                data,
+                borderColor: color,
+                backgroundColor: `${color}26`,
+                fill: type === "line",
+                tension: 0.35
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: false,
+            interaction: {
+                mode: "index",
+                intersect: false
+            },
+            plugins: {
+                legend: {
+                    display: true
+                }
+            }
+        }
+    });
 }
 
-// -------------------------------
-// Wear Increase
-// -------------------------------
+charts.push(
+    createChart("usageChart", "line", "Load (Ton)", "#2563eb", chartData.load),
+    createChart("fuelChart", "line", "Fuel (%)", "#10b981", chartData.fuel),
+    createChart("wearChart", "line", "Wear (%)", "#f59e0b", chartData.wear),
+    createChart("hourChart", "bar", "Working Hours", "#2563eb", chartData.hours)
+);
 
-function increaseWear(){
+function getActiveAlerts() {
+    const activeAlerts = [];
 
-    crane.wear+=crane.load*0.005;
+    if (crane.load >= 55) {
+        activeAlerts.push("Overload warning: crane load is high.");
+    }
+    if (crane.fuel <= 25) {
+        activeAlerts.push("Low fuel warning: refuel the crane soon.");
+    }
+    if (crane.temperature >= 80) {
+        activeAlerts.push("High temperature warning: inspect the cooling system.");
+    }
+    if (crane.wear >= 70) {
+        activeAlerts.push("Maintenance warning: inspect crane components for wear.");
+    }
 
-    crane.wear=Math.min(crane.wear,100);
-
+    return activeAlerts;
 }
 
-// -------------------------------
-// Temperature Logic
-// -------------------------------
+function updateRecommendations() {
+    if (!elements.recommendations) {
+        return;
+    }
 
-function updateTemperature(){
+    const remainingDays = Math.max(1, Math.round((100 - crane.wear) * 0.83));
+    const risk = crane.health < 70 ? "High" : crane.health < 85 ? "Medium" : "Low";
+    const inspection = crane.wear >= 30
+        ? "Wire rope inspection recommended"
+        : "Routine wire rope inspection recommended";
 
-    crane.temp=40+(crane.load*0.5);
-
+    elements.recommendations.replaceChildren(
+        ...[
+            `${inspection}.`,
+            `Estimated remaining life: ${remainingDays} days.`,
+            `Next service: ${new Date(Date.now() + remainingDays * 86400000).toLocaleDateString()}.`,
+            `Failure risk: ${risk}.`
+        ].map((message) => {
+            const item = document.createElement("p");
+            item.textContent = message;
+            return item;
+        })
+    );
 }
 
-// -------------------------------
-// Working Hours
-// -------------------------------
+function updateAlerts() {
+    if (!elements.alertList) {
+        return;
+    }
 
-function updateHours(){
+    const currentAlerts = getActiveAlerts();
+    elements.alerts.textContent = String(currentAlerts.length);
 
-    crane.hours+=0.2;
+    elements.alertList.replaceChildren();
+    if (currentAlerts.length === 0) {
+        const item = document.createElement("li");
+        item.textContent = "All systems operating normally.";
+        elements.alertList.append(item);
+        return;
+    }
 
+    currentAlerts.forEach((message) => {
+        const item = document.createElement("li");
+        item.textContent = message;
+        elements.alertList.append(item);
+    });
 }
 
-// -------------------------------
-// RPM Logic
-// -------------------------------
+function updateDashboard() {
+    crane.health = Math.max(
+        0,
+        Math.min(100, 100 - crane.wear * 0.45 - (100 - crane.fuel) * 0.12 - Math.max(0, crane.temperature - 40) * 0.25)
+    );
 
-function updateRPM(){
+    elements.health.textContent = `${Math.round(crane.health)}%`;
+    elements.hours.textContent = `${crane.hours.toFixed(1)} hrs`;
+    elements.fuel.textContent = `${Math.round(crane.fuel)}%`;
+    elements.load.textContent = `${Math.round(crane.load)} Ton`;
+    elements.wear.textContent = `${Math.round(crane.wear)}%`;
+    elements.fuelLevel.textContent = `${Math.round(crane.fuel)}%`;
+    elements.workingTime.textContent = `${crane.hours.toFixed(1)} Hours`;
+    elements.temperature.textContent = `${Math.round(crane.temperature)}°C`;
+    elements.vibration.textContent = crane.load >= 55 ? "Elevated" : "Normal";
+    elements.rpm.textContent = `${Math.round(crane.rpm)} RPM`;
 
-    crane.rpm=1000+(crane.load*12);
-
+    updateRecommendations();
+    updateAlerts();
 }
 
-// -------------------------------
-// Complete Simulation
-// -------------------------------
+function updateCharts() {
+    const time = new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
 
-function updateSystem(){
+    chartLabels.push(time);
+    chartData.load.push(Math.round(crane.load));
+    chartData.fuel.push(Math.round(crane.fuel));
+    chartData.wear.push(Math.round(crane.wear));
+    chartData.hours.push(Number(crane.hours.toFixed(1)));
 
-    simulateCrane();
+    if (chartLabels.length > historyLimit) {
+        chartLabels.shift();
+        Object.values(chartData).forEach((values) => values.shift());
+    }
 
-    consumeFuel();
+    charts.forEach((chart) => {
+        if (chart) {
+            chart.update();
+        }
+    });
+}
 
-    increaseWear();
-
-    updateTemperature();
-
-    updateHours();
-
-    updateRPM();
-
-    calculateHealth();
+function simulateCrane() {
+    crane.load = Math.max(20, Math.min(60, crane.load + Math.floor(Math.random() * 5) - 2));
+    crane.fuel = Math.max(0, crane.fuel - Math.random() * 0.6);
+    crane.wear = Math.min(100, crane.wear + Math.random() * 0.08);
+    crane.hours += 1 / 180;
+    crane.temperature = 40 + crane.load * 0.5 + Math.random() * 5;
+    crane.rpm = 1000 + crane.load * 12;
 
     updateDashboard();
-
+    updateCharts();
 }
 
-// -------------------------------
-// Initial Load
-// -------------------------------
+function exportReport() {
+    const report = [
+        "AI SMART CRANE REPORT",
+        "-----------------------------",
+        `Load: ${crane.load.toFixed(0)} Ton`,
+        `Fuel: ${crane.fuel.toFixed(0)}%`,
+        `Wear: ${crane.wear.toFixed(0)}%`,
+        `Temperature: ${crane.temperature.toFixed(0)}°C`,
+        `RPM: ${crane.rpm.toFixed(0)}`,
+        `Working hours: ${crane.hours.toFixed(1)}`,
+        `Health: ${crane.health.toFixed(0)}%`,
+        `Active alerts: ${getActiveAlerts().length}`,
+        `Generated: ${new Date().toLocaleString()}`
+    ].join("\n");
 
-updateSystem();
+    const reportUrl = URL.createObjectURL(new Blob([report], { type: "text/plain" }));
+    const link = document.createElement("a");
+    link.href = reportUrl;
+    link.download = "Crane_Report.txt";
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(reportUrl), 0);
+}
 
-// -------------------------------
-// Every 20 Seconds
-// -------------------------------
-
-setInterval(function(){
-
-    updateSystem();
-
-},20000);
-
-// -------------------------------
-// Digital Clock
-// -------------------------------
-
-setInterval(function(){
-
-    const clock=document.getElementById("clock");
-
-    if(clock){
-
-        clock.innerHTML=new Date().toLocaleTimeString();
-
-    }
-
-},1000);
-
-// -------------------------------
-// Export Report
-// -------------------------------
-
-function exportReport(){
-
-    const report=`
-
-AI SMART CRANE REPORT
-
------------------------------
-
-Load : ${crane.load.toFixed(0)} Ton
-
-Fuel : ${crane.fuel.toFixed(0)} %
-
-Wear : ${crane.wear.toFixed(0)} %
-
-Temperature : ${crane.temp.toFixed(0)} °C
-
-RPM : ${crane.rpm.toFixed(0)}
-
-Working Hours : ${crane.hours.toFixed(1)}
-
-Health : ${crane.health.toFixed(0)} %
-
-Generated :
-${new Date().toLocaleString()}
-
-`;
-
-    const blob=new Blob([report],{
-
-        type:"text/plain"
-
+const menuButton = document.getElementById("menuBtn");
+const navMenu = document.getElementById("navMenu");
+if (menuButton && navMenu) {
+    menuButton.addEventListener("click", () => {
+        const isExpanded = menuButton.getAttribute("aria-expanded") === "true";
+        menuButton.setAttribute("aria-expanded", String(!isExpanded));
+        navMenu.classList.toggle("is-open", !isExpanded);
     });
 
-    const a=document.createElement("a");
-
-    a.href=URL.createObjectURL(blob);
-
-    a.download="Crane_Report.txt";
-
-    a.click();
-
+    navMenu.addEventListener("click", (event) => {
+        if (event.target instanceof HTMLAnchorElement) {
+            navMenu.classList.remove("is-open");
+            menuButton.setAttribute("aria-expanded", "false");
+        }
+    });
 }
 
-// -------------------------------
-// Button
-// -------------------------------
-
-const reportBtn=document.getElementById("reportBtn");
-
-if(reportBtn){
-
-    reportBtn.addEventListener("click",exportReport);
-
+const dashboardButton = document.getElementById("dashboardButton");
+if (dashboardButton) {
+    dashboardButton.addEventListener("click", () => {
+        document.getElementById("dashboard")?.scrollIntoView({ behavior: "smooth" });
+    });
 }
+
+const reportButton = document.getElementById("reportBtn");
+if (reportButton) {
+    reportButton.addEventListener("click", exportReport);
+}
+
+function updateClock() {
+    if (elements.clock) {
+        elements.clock.textContent = new Date().toLocaleTimeString();
+    }
+}
+
 updateDashboard();
+updateCharts();
+updateClock();
+window.setInterval(simulateCrane, 5000);
+window.setInterval(updateClock, 1000);

@@ -53,6 +53,15 @@ nav ul{
     list-style:none;
 }
 
+.menu-btn{
+    display:none;
+    border:0;
+    background:transparent;
+    color:#2563eb;
+    font-size:24px;
+    cursor:pointer;
+}
+
 nav ul li{
     margin-left:30px;
 }
@@ -169,6 +178,13 @@ section h2{
 
 }
 
+.dashboard-clock{
+    width:90%;
+    margin:-25px auto 35px;
+    color:#666;
+    text-align:right;
+}
+
 .card{
 
     background:white;
@@ -255,29 +271,32 @@ section h2{
 @media(max-width:900px){
 
 nav{
+    height:75px;
+    padding:0 5%;
+}
 
-flex-direction:column;
-
-height:auto;
-
-padding:20px;
-
+.menu-btn{
+    display:block;
 }
 
 nav ul{
+    display:none;
+    position:absolute;
+    top:75px;
+    left:0;
+    width:100%;
+    padding:12px 5%;
+    background:#fff;
+    box-shadow:0 8px 12px rgba(0,0,0,.08);
+}
 
-margin-top:15px;
-
-flex-wrap:wrap;
-
-justify-content:center;
-
+nav ul.is-open{
+    display:flex;
+    flex-direction:column;
 }
 
 nav ul li{
-
-margin:10px;
-
+    margin:10px 0;
 }
 
 .hero h1{
@@ -401,6 +420,22 @@ font-size:16px;
 
     list-style:none;
 
+}
+
+.report-button{
+    display:block;
+    margin:24px auto 0;
+    padding:12px 20px;
+    border:0;
+    border-radius:8px;
+    background:#2563eb;
+    color:#fff;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.report-button:hover{
+    background:#1d4ed8;
 }
 
 .alerts-section li{
@@ -853,4 +888,3 @@ color:white;
     }
 
 }
-
